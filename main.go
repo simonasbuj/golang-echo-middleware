@@ -1,8 +1,20 @@
 package main
 
+import (
+	"log"
 
-import "fmt"
+	"golang-echo-middleware/internal/pkg/app"
+)
+
 
 func main() {
-	fmt.Println("Hello, World this is Golang!")
+	a, err := app.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = a.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
