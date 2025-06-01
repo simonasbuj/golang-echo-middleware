@@ -24,6 +24,5 @@ func CheckRole(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		return nil
-
 	}
 }

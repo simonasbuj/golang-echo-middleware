@@ -1,8 +1,10 @@
 package endpoint
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
-	"strconv"
+	// "strconv"
 
 	// "golang-echo-middleware/internal/app/service"
 
@@ -17,26 +19,35 @@ type Endpoint struct {
 	s Service
 }
 
-
 func New(s Service) *Endpoint {
 	return &Endpoint{
 		s: s,
 	}
 }
 
+type Response struct {
+	Message 		string `json:"message"`
+	AnotherField 	string `json:"anotherField"`
+}
 
 func (e *Endpoint) DaysUntil(ctx echo.Context) error {
-	// ctx.String(http.StatusOK, "{\"message\": \"Days until 2027\"}")
 
 	daysUntil2027 := e.s.DaysUntil2027()
 
-	responseJSON := `
-		{
-			"message": "Days until 2027: ` + strconv.Itoa(daysUntil2027) + `",
-			"another_field": "This is another field"
-		}
-	`
-	ctx.Blob(http.StatusOK, "application/json", []byte(responseJSON))
+	response := Response{
+		Message: fmt.Sprintf("Days until 2027: %d", daysUntil2027),
+		AnotherField: "This is another field v2",
+	}
+
+	jsonBytes, err := json.Marshal(response)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "Failed to serialize JSON response",
+			"oneMore": "hi",
+		})
+	}
+
+	ctx.JSONBlob(http.StatusOK, jsonBytes)
 
 	return nil
 }
