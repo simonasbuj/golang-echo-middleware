@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"golang-echo-middleware/internal/app/endpoint"
+	"golang-echo-middleware/internal/app/service"
+	"golang-echo-middleware/internal/app/middleware"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,9 +20,12 @@ type App struct {
 
 func New() (*App, error) {
 	a := &App{
-		e: endpoint.New(),
+		e: endpoint.New(service.New()),
 		echo: echo.New(),
 	}
+
+	// Register middleware
+	a.echo.Use(middleware.CheckRole)
 
 	// Register routes
 	a.echo.GET("/days-until-2027", a.e.DaysUntil)
