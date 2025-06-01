@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	// "strconv"
-
-	// "golang-echo-middleware/internal/app/service"
 
 	"github.com/labstack/echo/v4"
 )

@@ -11,12 +11,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-
 type App struct {
 	e 		*endpoint.Endpoint
 	echo 	*echo.Echo
 }
-
 
 func New() (*App, error) {
 	a := &App{
@@ -32,8 +30,6 @@ func New() (*App, error) {
 
 	return a, nil
 }
-
-
 
 func (a *App) Run() error {
 	log.Println("Server is running...")
